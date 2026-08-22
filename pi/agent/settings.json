@@ -9,5 +9,7 @@
   "theme": "dark",
   "hideThinkingBlock": false,
   "tuiMode": "fullscreen",
-  "packages": ["npm:pi-web-access"]
+  "packages": [
+    "npm:pi-web-access"
+  ]
 }
