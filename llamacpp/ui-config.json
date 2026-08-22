@@ -1,0 +1,4 @@
+{
+  "jsSandboxEnabled": true,
+  "mcpServers": "[{\"enabled\":true,\"id\":\"web-search\",\"url\":\"https://mcp.exa.ai/mcp\",\"useProxy\":false}]"
+}
