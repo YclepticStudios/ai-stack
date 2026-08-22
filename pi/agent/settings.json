@@ -1,0 +1,13 @@
+{
+  "defaultProvider": "llama.cpp",
+  "defaultModel": "unsloth/Qwen3.8-27B-GGUF:Q6_K",
+  "defaultThinkingLevel": "medium",
+  "compaction": {
+    "enabled": false
+  },
+  "lastChangelogVersion": "0.84.2",
+  "theme": "dark",
+  "hideThinkingBlock": false,
+  "tuiMode": "fullscreen",
+  "packages": ["npm:pi-web-access"]
+}

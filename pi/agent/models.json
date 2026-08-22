@@ -1,0 +1,37 @@
+{
+  "providers": {
+    "llama.cpp": {
+      "baseUrl": "http://127.0.0.1:9931/v1",
+      "api": "openai-completions",
+      "apiKey": "llama.cpp",
+      "models": [
+        {
+          "id": "unsloth/Qwen3.8-27B-GGUF:Q6_K",
+          "name": "Qwen 3.8 27B",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": "none",
+            "minimal": null,
+            "low": "low",
+            "medium": "medium",
+            "high": null,
+            "xhigh": "xhigh",
+            "max": null
+          },
+          "input": ["text"],
+          "contextWindow": 172032,
+          "maxTokens": 64000,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "supportsReasoningEffort": true,
+            "supportsUsageInStreaming": true,
+            "supportsStrictMode": false,
+            "maxTokensField": "max_tokens"
+          }
+        }
+      ]
+    }
+  }
+}
