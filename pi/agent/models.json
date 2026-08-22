@@ -30,6 +30,32 @@
             "supportsStrictMode": false,
             "maxTokensField": "max_tokens"
           }
+        },
+        {
+          "id": "unsloth/Muse-Glimmer-30B-GGUF:UD-Q6_K_XL",
+          "name": "Muse Glimmer 30B",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": "none",
+            "minimal": null,
+            "low": "low",
+            "medium": "medium",
+            "high": "high",
+            "xhigh": "xhigh",
+            "max": null
+          },
+          "input": ["text"],
+          "contextWindow": 131072,
+          "maxTokens": 64000,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "supportsReasoningEffort": true,
+            "supportsUsageInStreaming": true,
+            "supportsStrictMode": false,
+            "maxTokensField": "max_tokens"
+          }
         }
       ]
     }
