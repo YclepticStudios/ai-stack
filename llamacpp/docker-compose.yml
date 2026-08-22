@@ -6,14 +6,14 @@ services:
     ports:
       - "127.0.0.1:9931:9931"
     volumes:
-      - ~/.cache/huggingface:/root/.cache/huggingface
-      - ./llama.ini:/app/llama.ini:ro
+      - ./.hf-cache:/root/.cache/huggingface:rw
+      - ./preset.ini:/app/preset.ini:ro
       - ./ui-config.json:/app/ui-config.json:ro
     environment:
       HF_HOME: /root/.cache/huggingface
       LLAMA_ARG_CORS_ORIGINS: http://localhost:9931,http://127.0.0.1:9931
-      LLAMA_ARG_MODELS_PRESET: /app/llama.ini
       LLAMA_ARG_MODELS_MAX: 1
+      LLAMA_ARG_MODELS_PRESET: /app/preset.ini
       LLAMA_ARG_UI_CONFIG_FILE: /app/ui-config.json
     deploy:
       resources:

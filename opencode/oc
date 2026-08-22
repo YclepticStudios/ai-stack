@@ -43,13 +43,13 @@ BWRAP_ARGS+=(--ro-bind /etc /etc) # Note: Shadow requires root and is not visibl
 # Home and environment
 BWRAP_ARGS+=(--clearenv)
 BWRAP_ARGS+=(--setenv PATH "$PATH")
-BWRAP_ARGS+=(--setenv TERM "xterm-256color")
+BWRAP_ARGS+=(--setenv TERM "${TERM:-xterm-256color}")
 BWRAP_ARGS+=(--setenv LANG "C.UTF-8")
 BWRAP_ARGS+=(--setenv HOME "$HOME")
 BWRAP_ARGS+=(--setenv USER "$(id -un)")
 BWRAP_ARGS+=(--setenv LOGNAME "$(id -un)")
 BWRAP_ARGS+=(--setenv TMPDIR /tmp)
-BWRAP_ARGS+=(--setenv XDG_CACHE_HOME /tmp)
+BWRAP_ARGS+=(--setenv XDG_CACHE_HOME "$HOME/.cache")
 BWRAP_ARGS+=(--setenv HISTFILE /dev/null)
 BWRAP_ARGS+=(--dir "$HOME")
 BWRAP_ARGS+=(--chdir "$PROJECT_DIR")
@@ -60,8 +60,8 @@ OP_CACHE="$HOME/.cache/opencode"
 OP_STATE="$HOME/.local/state/opencode"
 mkdir -p "$OP_CONFIG" "$OP_DATA" "$OP_CACHE" "$OP_STATE"
 BWRAP_ARGS+=(--ro-bind "$HOME/.opencode/bin" "$HOME/.opencode/bin")
-BWRAP_ARGS+=(--ro-bind "$SCRIPT_DIR/opencode.jsonc" "$OP_CONFIG/opencode.jsonc") # Map local config
 BWRAP_ARGS+=(--ro-bind "$OP_CONFIG" "$OP_CONFIG")
+BWRAP_ARGS+=(--ro-bind "$SCRIPT_DIR/opencode.jsonc" "$OP_CONFIG/opencode.jsonc") # Map local config
 BWRAP_ARGS+=(--bind "$OP_DATA" "$OP_DATA")
 BWRAP_ARGS+=(--bind "$OP_CACHE" "$OP_CACHE")
 BWRAP_ARGS+=(--bind "$OP_STATE" "$OP_STATE")
