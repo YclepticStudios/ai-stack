@@ -1,10 +1,11 @@
 # AI Stack
 
-This is my personal local AI coding assistant configuration. It targets a system
-with a single NVIDIA 5090 running Ubuntu 24. It is designed to provide a web
-chat interface as well as to run a (somewhat) isolated Pi coding harness.
-Finding all the right configuration options to get stuff operating nicely was
-rather painful, so hopefully this can serve as a starting point for others.
+This is a simple local AI coding assistant configuration. It targets a system
+with a single NVIDIA 5090 running Ubuntu 24.04, although it should function on a
+range of Linux systems (potentially with a few tweaks). It is designed to
+provide a web chat interface as well as to run an isolated Pi coding harness.
+Determining all the right configuration options was an ordeal, so hopefully this
+can serve as a starting point for other setups.
 
 ## llama.cpp
 
@@ -38,27 +39,29 @@ docker compose -f llamacpp/docker-compose.yml up -d   # Start and detach
 docker compose -f llamacpp/docker-compose.yml down    # Stop
 ```
 
-## pi
+## Pi
 
-[pi](https://pi.dev) is the coding agent harness side of the stack. It is run
-through `phi`, a small launcher that wraps `pi` in a bubblewrap sandbox to limit
-its access to the host system. By default this will restrict write access to the
-launch directory (with the `.git/` folder readonly) as well as hiding some other
-sensitive directories like the users home.
+[Pi](https://pi.dev) is the coding agent harness side of the stack which
+utilizes `llama.cpp` above. It is run through `phi`, a small launcher that wraps
+`pi` in a bubblewrap sandbox to limit its access to the host system. By default
+this will restrict write access to the launch directory (with the `.git/` folder
+readonly) as well as hiding some other sensitive directories like the user's
+home. All `pi` configuration is redirected to `./pi/agent` when launched with
+`phi`.
 
 ### Dependencies
 
-- [Node.js](https://nodejs.org) (22.19+)
-- [pi](https://pi.dev/docs/latest/quickstart)
+- [Node.js](https://nodejs.org/en/download) (22.19+)
+- [pi](https://pi.dev/)
 - [bubblewrap](https://github.com/containers/bubblewrap)
 
 ### Setup
 
-From the repo root run the following to link the `phi` launcher into your PATH
-(`~/.local/bin` must be on the PATH):
+From the repo root, run the following to create a symlink to `phi` in
+`~/.local/bin/`. If that directory does not exist or is not on the PATH, create
+it and add it to the PATH.
 
 ```sh
-mkdir -p ~/.local/bin
 ln -sfn $(pwd)/pi/phi ~/.local/bin/phi
 ```
 
@@ -69,6 +72,6 @@ first argument (defaults to the current directory; directories under `$HOME` are
 rejected).
 
 ```sh
-phi              # Start a session in the current directory
-phi /path/project  # Start a session in a specific directory
+phi                # Start a session in the current directory
+phi /project/path  # Start a session in a specific directory
 ```
