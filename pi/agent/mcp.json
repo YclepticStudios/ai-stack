@@ -1,0 +1,14 @@
+{
+  "settings": {
+    "disableProxyTool": true,
+    "scriptMode": false,
+    "mcpFooterStatus": "off"
+  },
+  "mcpServers": {
+    "searxng": {
+      "url": "http://localhost:9933/mcp",
+      "lifecycle": "eager",
+      "directTools": true
+    }
+  }
+}

@@ -7,12 +7,20 @@ provide a web chat interface as well as to run an isolated Pi coding harness.
 Determining all the right configuration options was an ordeal, so hopefully this
 can serve as a starting point for other setups.
 
-## llama.cpp
+## Services
 
-[llama.cpp](https://github.com/ggml-org/llama.cpp) serves as the inference
-engine and provides a clean and functional web chat interface to use alongside
-its OpenAI compatible endpoints. By default, a web search tool and a JS sandbox
-tool are enabled within the web chat.
+All backend inference and search services are configured in
+`services/docker-compose.yml`:
+
+- **llama-server**: [llama.cpp](https://github.com/ggml-org/llama.cpp) serves as
+  the inference engine with a web chat interface (plus OpenAI compatible
+  endpoints) at [http://localhost:9931](http://localhost:9931). A web search
+  tool and a JS sandbox tool are enabled by default.
+- **searxng**: [SearXNG](https://docs.searxng.org/) provides metasearch (JSON
+  API) on loopback `127.0.0.1:9932`.
+- **searxng-mcp**: Streamable-HTTP MCP bridge (loopback `127.0.0.1:9933`) that
+  exposes the search instance to the web chat via llama-server's built-in MCP
+  proxy and to Pi via `pi/agent/mcp.json`.
 
 ### Dependencies
 
@@ -24,7 +32,7 @@ tool are enabled within the web chat.
 From the repo root run the following:
 
 ```sh
-docker compose -f llamacpp/docker-compose.yml pull
+docker compose -f services/docker-compose.yml pull
 ```
 
 ### Usage
@@ -35,8 +43,8 @@ launched, the web chat can be accessed at
 [http://localhost:9931](http://localhost:9931).
 
 ```sh
-docker compose -f llamacpp/docker-compose.yml up -d   # Start and detach
-docker compose -f llamacpp/docker-compose.yml down    # Stop
+docker compose -f services/docker-compose.yml up -d   # Start and detach
+docker compose -f services/docker-compose.yml down    # Stop
 ```
 
 ## Pi
@@ -47,7 +55,8 @@ utilizes `llama.cpp` above. It is run through `phi`, a small launcher that wraps
 this will restrict write access to the launch directory (with the `.git/` folder
 readonly) as well as hiding some other sensitive directories like the user's
 home. All `pi` configuration is redirected to `./pi/agent` when launched with
-`phi`.
+`phi`. MCP servers (including the search bridge above) are configured for it in
+`pi/agent/mcp.json` via the `pi-mcp-adapter` package.
 
 ### Dependencies
 
@@ -75,3 +84,15 @@ rejected).
 phi                # Start a session in the current directory
 phi /project/path  # Start a session in a specific directory
 ```
+
+## LAN mode
+
+Everything is bound to loopback by default. To use the stack from other machines
+on a trusted network (none of it is authenticated), make these changes in
+`services/docker-compose.yml` and restart the services:
+
+- **Web Chat**: Change `127.0.0.1:9931:9931` to `0.0.0.0:9931:9931` on
+  `llama-server`.
+- **Pi**: Change `127.0.0.1:9933:9933` to `0.0.0.0:9933:9933` on `searxng-mcp`
+  and point each machine's `pi/agent/mcp.json` at
+  `http://<this machine's LAN IP>:9933/mcp`.

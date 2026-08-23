@@ -10,6 +10,6 @@
   "hideThinkingBlock": false,
   "tuiMode": "fullscreen",
   "packages": [
-    "npm:pi-web-access"
+    "npm:pi-mcp-adapter@2.27.0"
   ]
 }

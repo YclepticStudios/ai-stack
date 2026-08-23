@@ -1,0 +1,57 @@
+services:
+  # Inference server and web ui host
+  llama-server:
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda13-b10548
+    container_name: llama-server
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9931:9931"
+    volumes:
+      - ./llamacpp/.hf-cache:/root/.cache/huggingface:rw
+      - ./llamacpp/preset.ini:/app/preset.ini:ro
+      - ./llamacpp/ui-config.json:/app/ui-config.json:ro
+    environment:
+      HF_HOME: /root/.cache/huggingface
+      LLAMA_ARG_CORS_ORIGINS: http://localhost:9931,http://127.0.0.1:9931
+      LLAMA_ARG_MODELS_MAX: 1
+      LLAMA_ARG_MODELS_PRESET: /app/preset.ini
+      LLAMA_ARG_UI_CONFIG_FILE: /app/ui-config.json
+      LLAMA_ARG_UI_MCP_PROXY: "true"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command:
+      - --host
+      - 0.0.0.0
+      - --port
+      - "9931"
+
+  # Web search and fetch service
+  searxng:
+    image: searxng/searxng:2026.8.22-9fea41204
+    container_name: searxng
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9932:8080"
+    volumes:
+      - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
+    environment:
+      SEARXNG_BASE_URL: http://127.0.0.1:9932/
+
+  # MCP bridge between searxng and llama.cpp
+  searxng-mcp:
+    image: isokoliuk/mcp-searxng:2.0.0
+    container_name: searxng-mcp
+    restart: unless-stopped
+    depends_on:
+      - searxng
+    ports:
+      - "127.0.0.1:9933:9933"
+    environment:
+      MCP_HTTP_PORT: "9933"
+      MCP_HTTP_HOST: 0.0.0.0
+      SEARXNG_URL: http://searxng:8080
