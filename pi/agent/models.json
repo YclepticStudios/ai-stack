@@ -32,7 +32,7 @@
           }
         },
         {
-          "id": "unsloth/Muse-Glimmer-30B-GGUF:UD-Q6_K_XL",
+          "id": "unsloth/Muse-Glimmer-30B-GGUF:Q6_K_XL",
           "name": "Muse Glimmer 30B",
           "reasoning": true,
           "thinkingLevelMap": {
