@@ -30,28 +30,12 @@ services:
       - --port
       - "9931"
 
-  # Web search and fetch service
-  searxng:
-    image: searxng/searxng:2026.8.22-9fea41204
-    container_name: searxng
+  # MCP search + fetch
+  mcp-search:
+    build:
+      context: ./mcp-search
+      dockerfile: Dockerfile
+    container_name: mcp-search
     restart: unless-stopped
     ports:
-      - "127.0.0.1:9932:8080"
-    volumes:
-      - ./searxng/settings.yml:/etc/searxng/settings.yml:ro
-    environment:
-      SEARXNG_BASE_URL: http://127.0.0.1:9932/
-
-  # MCP bridge between searxng and llama.cpp
-  searxng-mcp:
-    image: isokoliuk/mcp-searxng:2.0.0
-    container_name: searxng-mcp
-    restart: unless-stopped
-    depends_on:
-      - searxng
-    ports:
-      - "127.0.0.1:9933:9933"
-    environment:
-      MCP_HTTP_PORT: "9933"
-      MCP_HTTP_HOST: 0.0.0.0
-      SEARXNG_URL: http://searxng:8080
+      - "127.0.0.1:9932:9932"

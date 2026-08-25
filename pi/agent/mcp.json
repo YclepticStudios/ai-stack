@@ -5,8 +5,8 @@
     "mcpFooterStatus": "off"
   },
   "mcpServers": {
-    "searxng": {
-      "url": "http://localhost:9933/mcp",
+    "mcp-search": {
+      "url": "http://localhost:9932/mcp",
       "lifecycle": "eager",
       "directTools": true
     }

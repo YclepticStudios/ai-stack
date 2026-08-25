@@ -1,4 +1,4 @@
 {
   "jsSandboxEnabled": true,
-  "mcpServers": "[{\"enabled\":true,\"id\":\"searxng\",\"url\":\"http://searxng-mcp:9933/mcp\",\"useProxy\":true}]"
+  "mcpServers": "[{\"enabled\":true,\"id\":\"mcp-search\",\"url\":\"http://mcp-search:9932/mcp\",\"useProxy\":true}]"
 }

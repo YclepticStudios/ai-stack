@@ -16,35 +16,26 @@ All backend inference and search services are configured in
   the inference engine with a web chat interface (plus OpenAI compatible
   endpoints) at [http://localhost:9931](http://localhost:9931). A web search
   tool and a JS sandbox tool are enabled by default.
-- **searxng**: [SearXNG](https://docs.searxng.org/) provides metasearch (JSON
-  API) on loopback `127.0.0.1:9932`.
-- **searxng-mcp**: Streamable-HTTP MCP bridge (loopback `127.0.0.1:9933`) that
-  exposes the search instance to the web chat via llama-server's built-in MCP
-  proxy and to Pi via `pi/agent/mcp.json`.
+- **mcp-search**: Self-hosted streamable-HTTP MCP server (loopback
+  `127.0.0.1:9932`) providing `search_web` (DuckDuckGo) and `fetch_page` (Chrome
+  impersonation + trafilatura text extraction). It is exposed to the web chat
+  via llama-server's built-in MCP proxy and to Pi via `pi/agent/mcp.json`.
 
 ### Dependencies
 
 - [Docker Engine](https://docs.docker.com/engine/install/)
 - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 
-### Setup
-
-From the repo root run the following:
-
-```sh
-docker compose -f services/docker-compose.yml pull
-```
-
 ### Usage
 
-The following commands can be used to start and stop the server. Note that the
-first access to a model will trigger its download which may take some time. Once
-launched, the web chat can be accessed at
+The following commands can be used to build, start and stop the server. Note
+that the first access to a model will trigger its download which may take some
+time. Once launched, the web chat can be accessed at
 [http://localhost:9931](http://localhost:9931).
 
 ```sh
-docker compose -f services/docker-compose.yml up -d   # Start and detach
-docker compose -f services/docker-compose.yml down    # Stop
+docker compose -f services/docker-compose.yml up -d --build   # Start and detach
+docker compose -f services/docker-compose.yml down            # Stop
 ```
 
 ## Pi
@@ -55,7 +46,7 @@ utilizes `llama.cpp` above. It is run through `phi`, a small launcher that wraps
 this will restrict write access to the launch directory (with the `.git/` folder
 readonly) as well as hiding some other sensitive directories like the user's
 home. All `pi` configuration is redirected to `./pi/agent` when launched with
-`phi`. MCP servers (including the search bridge above) are configured for it in
+`phi`. MCP servers (including mcp-search above) are configured for it in
 `pi/agent/mcp.json` via the `pi-mcp-adapter` package.
 
 ### Dependencies
@@ -93,6 +84,6 @@ on a trusted network (none of it is authenticated), make these changes in
 
 - **Web Chat**: Change `127.0.0.1:9931:9931` to `0.0.0.0:9931:9931` on
   `llama-server`.
-- **Pi**: Change `127.0.0.1:9933:9933` to `0.0.0.0:9933:9933` on `searxng-mcp`
+- **Pi**: Change `127.0.0.1:9932:9932` to `0.0.0.0:9932:9932` on `mcp-search`
   and point each machine's `pi/agent/mcp.json` at
-  `http://<this machine's LAN IP>:9933/mcp`.
+  `http://<this machine's LAN IP>:9932/mcp`.
