@@ -1,9 +1,11 @@
 services:
   # Inference server and web ui host
   llama-server:
-    image: ghcr.io/ggml-org/llama.cpp:server-cuda13-b10548
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda13-b10680
     container_name: llama-server
     restart: unless-stopped
+    healthcheck:
+      disable: true
     ports:
       - "127.0.0.1:9931:9931"
     volumes:

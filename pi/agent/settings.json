@@ -1,15 +1,13 @@
 {
   "defaultProvider": "llama.cpp",
-  "defaultModel": "unsloth/Qwen3.8-27B-GGUF:Q6_K",
+  "defaultModel": "unsloth/Qwen3.8-27B-GGUF:Q4_K_XL",
   "defaultThinkingLevel": "medium",
   "compaction": {
     "enabled": false
   },
-  "lastChangelogVersion": "0.84.2",
+  "lastChangelogVersion": "0.84.4",
   "theme": "dark",
   "hideThinkingBlock": false,
   "tuiMode": "fullscreen",
-  "packages": [
-    "npm:pi-mcp-adapter@2.27.0"
-  ]
+  "packages": ["npm:pi-mcp-adapter@2.31.0"]
 }
