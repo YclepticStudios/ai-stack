@@ -30,8 +30,8 @@ All backend inference and search services are configured in
 
 The following commands can be used to build, start, and stop the server. Note
 that the first access to a model will trigger its download, which may take some
-time. Once launched, the web chat can be accessed at
-[http://localhost:9931](http://localhost:9931).
+time and does not provide feedback. Once launched, the web chat can be accessed
+at [http://localhost:9931](http://localhost:9931).
 
 ```sh
 docker compose -f services/docker-compose.yml up --build   # Build and start
@@ -40,38 +40,37 @@ docker compose -f services/docker-compose.yml down         # Stop
 
 ## Pi
 
-[Pi](https://pi.dev) is the coding agent harness side of the stack, which
-utilizes `llama.cpp` above. It is run through `phi`, a small launcher that wraps
-`pi` in a bubblewrap sandbox to limit its access to the host system. By default,
-this will restrict write access to the launch directory (with the `.git/` folder
-read-only) as well as hide some other sensitive directories like the user's
-home. All `pi` configuration is redirected to `./pi/agent` when launched with
-`phi`.
+[Pi](https://pi.dev) is the coding agent harness which utilizes the above
+services. The [pi-sandbox](https://github.com/carderne/pi-sandbox) extension is
+configured to sandbox the agent to avoid unapproved edits outside the workspace
+or to the `.git/` folder as well as avoid unapproved network access.
 
 ### Dependencies
 
 - [Pi](https://pi.dev/)
 - [bubblewrap](https://github.com/containers/bubblewrap)
+- [ripgrep](https://github.com/burntsushi/ripgrep)
 
 ### Setup
 
-From the repo root, run the following to create a symlink to `phi` in
-`~/.local/bin/`. If that directory does not exist or is not on the PATH, create
-it and add it to the PATH.
+Redirect the global Pi configuration to the repo's local `pi/` folder.
 
 ```sh
-ln -sfn $(pwd)/pi/phi ~/.local/bin/phi
+mv ~/.pi ~/.pi.bak 2>/dev/null  # Backup any existing ~/.pi configuration
+ln -sfn $(pwd)/pi ~/.pi         # Symlink the local pi folder to ~/.pi
 ```
+
+Login to the local provider by launching Pi and running `/login llama.cpp`
+followed by the address of the llama.cpp server (typically
+`http://127.0.0.1:9931`).
 
 ### Usage
 
-Run `phi` to start a session, optionally passing a project directory as the
-first argument (defaults to the current directory; directories above `$HOME` are
-rejected).
+Run `pi` as normal from the target project directory.
 
 ```sh
-phi                # Start a session in the current directory
-phi /project/path  # Start a session in a specific directory
+cd /project/path
+pi
 ```
 
 ## LAN mode
@@ -80,8 +79,10 @@ Everything is bound to loopback by default. To use the stack from other machines
 on a trusted network (none of it is authenticated), make these changes in
 `services/docker-compose.yml` and restart the services:
 
-- **Web Chat**: Change `127.0.0.1:9931:9931` to `0.0.0.0:9931:9931` on
-  `llama-server`.
-- **Pi**: Change `127.0.0.1:9932:9932` to `0.0.0.0:9932:9932` on `mcp-search`
-  and point each machine's `pi/agent/mcp.json` at
-  `http://<this machine's LAN IP>:9932/mcp`.
+- **Services**: Change `127.0.0.1:9931:9931` to `0.0.0.0:9931:9931` for
+  `llama-server` and `127.0.0.1:9932:9932` to `0.0.0.0:9932:9932` for
+  `mcp-search`.
+- **Pi**: Point each machine's `pi/agent/mcp.json` at
+  `http://<this machine's LAN IP>:9932/mcp` and on each machine run
+  `/login llama.cpp` in Pi, entering `http://<this machine's LAN IP>:9931`
+  instead of the local URL.

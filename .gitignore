@@ -1,5 +1,6 @@
 .hf-cache/
 pi/agent/*
-!pi/agent/models.json
-!pi/agent/settings.json
 !pi/agent/mcp.json
+!pi/agent/models.json
+!pi/agent/sandbox.json
+!pi/agent/settings.json
