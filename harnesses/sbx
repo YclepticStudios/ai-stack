@@ -31,6 +31,7 @@ case "${1:-}" in
     shift
     mkdir -p "$HOME/.local/share/opencode" "$HOME/.local/state/opencode" "$HOME/.cache/opencode"
     bwrap+=(
+      --setenv OPENCODE_ENABLE_EXA 1 # Enable exa websearch
       --bind "$CFG/opencode" "$HOME/.config/opencode"
       --bind "$HOME/.local/share/opencode" "$HOME/.local/share/opencode"
       --bind "$HOME/.local/state/opencode" "$HOME/.local/state/opencode"

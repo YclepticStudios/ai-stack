@@ -66,4 +66,5 @@ CMD ["ninfer-serve", \
      "--spec", "mtp", \
      "--draft-tokens", "3", \
      "--lm-head-draft", \
+     "--vision", \
      "--preserve-thinking"]

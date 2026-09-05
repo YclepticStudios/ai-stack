@@ -16,6 +16,9 @@
             "context": 240000,
             "output": 32000,
           },
+          "modalities": {
+            "input": ["text", "image"],
+          },
           "interleaved": {
             "field": "reasoning_content",
           },
