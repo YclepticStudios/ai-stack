@@ -11,4 +11,4 @@ COPY mcp_search ./mcp_search
 RUN uv sync --frozen --no-dev
 
 EXPOSE 9932
-CMD ["uv", "run", "--no-sync", "mcp-search"]
+CMD uv run --no-sync mcp-search
