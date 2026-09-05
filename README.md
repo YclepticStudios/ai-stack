@@ -49,86 +49,53 @@ The llama.cpp server additionally provides a web chat at
 Note: First use may take a while to start since the models must be downloaded
 and NInfer compiled from source.
 
-## Pi
+## Harnesses
 
-[Pi](https://pi.dev) is the coding agent harness which utilizes the above
-services. The [pi-sandbox](https://github.com/carderne/pi-sandbox) extension is
-configured to sandbox the agent, blocking unapproved edits outside the workspace
-or to `.git/`, and unapproved network access.
+- **opencode**: [OpenCode](https://opencode.ai) TUI agent (config in
+  `harnesses/config/opencode/`).
+- **pi**: [Pi](https://pi.dev) coding agent (config in `harnesses/config/pi/`).
+
+Both are preconfigured for the local inference engines at
+`http://127.0.0.1:9931`. They can be launched with the `sbx` script to disable
+writes outside the working directory and to `.git/` as well as to mask `~/.ssh`.
 
 ### Dependencies
 
-- [Pi](https://pi.dev/)
 - [bubblewrap](https://github.com/containers/bubblewrap)
-- [ripgrep](https://github.com/burntsushi/ripgrep)
-
-### Setup
-
-Redirect the global Pi configuration to the repo's local `pi/` folder.
-
-```sh
-mv ~/.pi ~/.pi.bak 2>/dev/null  # Backup any existing ~/.pi configuration
-ln -sfn $(pwd)/pi ~/.pi         # Symlink the local pi folder to ~/.pi
-```
-
-Login to the local provider by launching Pi and running `/login llama.cpp`
-followed by the address of the llama.cpp server (typically
-`http://127.0.0.1:9931`). The `ninfer` provider is configured the same way
-(`/login ninfer`, same address); to make it the default, set `defaultProvider`
-to `ninfer` in `pi/agent/settings.json`.
-
-### Usage
-
-Run `pi` as normal from the target project directory.
-
-```sh
-cd /project/path
-pi
-```
-
-## OpenCode
-
-[OpenCode](https://opencode.ai) is a second, TUI based coding agent. It is
-launched through `opencode/oc`, a small wrapper which runs the entire instance
-inside a [bubblewrap](https://github.com/containers/bubblewrap) sandbox: the
-whole filesystem is read-only except the project directory (with `.git/` kept
-read-only), a fresh private `/tmp`, and OpenCode's own state directories.
-Network access is unrestricted. The repo's `opencode.jsonc` is mapped in as the
-instance config when launched via `oc`.
-
-### Dependencies
-
 - [OpenCode](https://opencode.ai)
-- [bubblewrap](https://github.com/containers/bubblewrap)
+- [Pi](https://pi.dev/)
 
 ### Setup
 
-Link the sandboxed launcher onto your PATH.
+Link the launcher onto your PATH:
 
 ```sh
-ln -sfn $(pwd)/opencode/oc ~/.local/bin/oc
+ln -sfn $(pwd)/harnesses/sbx ~/.local/bin/sbx
 ```
 
 ### Usage
 
-Run `oc` from the target project directory, or pass the directory as the first
-argument. Further arguments are passed through to `opencode`.
+Run the desired harness from the target project directory; further arguments are
+passed through to the harness:
 
 ```sh
 cd /project/path
-oc                  # or: oc /project/path
+sbx pi
+sbx opencode
 ```
 
 ## LAN mode
 
 Everything is bound to loopback by default. To use the stack from other machines
-on a trusted network (none of it is authenticated), make these changes in
-`services/docker-compose.yml` and restart the services:
+on a trusted network (none of it is authenticated), expose the services on the
+stack machine and point each client machine's harness configs at it:
 
-- **Services**: Change `127.0.0.1:9931:9931` to `0.0.0.0:9931:9931` for the
-  inference engine (`llama-server` or `ninfer`) and `127.0.0.1:9932:9932` to
-  `0.0.0.0:9932:9932` for `mcp-search`.
-- **Pi**: Point each machine's `pi/agent/mcp.json` at
-  `http://<this machine's LAN IP>:9932/mcp` and on each machine run
-  `/login llama.cpp` (or `/login ninfer`) in Pi, entering
-  `http://<this machine's LAN IP>:9931` instead of the local URL.
+- **Services**: In `services/docker-compose.yml`, change `127.0.0.1:9931:9931`
+  to `0.0.0.0:9931:9931` for the inference engine (`llama-server` or `ninfer`)
+  and `127.0.0.1:9932:9932` to `0.0.0.0:9932:9932` for `mcp-search`, then
+  restart the services.
+- **Harnesses**: On each client machine, set the `baseURL` fields in
+  `harnesses/config/opencode/opencode.jsonc` and the `baseUrl` fields in
+  `harnesses/config/pi/models.json` to `http://<stack machine IP>:9931/v1`, and
+  the `url` in `harnesses/config/pi/mcp.json` to
+  `http://<stack machine IP>:9932/mcp`.
