@@ -1,0 +1,10 @@
+{
+  "defaultProvider": "ninfer",
+  "defaultModel": "qwen3.8-27b",
+  "defaultThinkingLevel": "medium",
+  "lastChangelogVersion": "0.85.1",
+  "theme": "dark",
+  "hideThinkingBlock": true,
+  "tuiMode": "fullscreen",
+  "packages": ["npm:pi-mcp-adapter@2.31.0"]
+}

@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+#
+# Launch a coding harness (opencode, pi) inside a bubblewrap sandbox. The host
+# is mounted read-only; only the current project directory is writable.
+# A convenience guard for supervised use, not a security boundary.
+#
+#   sbx <harness> [args...]     # run from inside the target project
+
+set -euo pipefail
+
+DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+CFG="$DIR/config"
+PROJ="$(pwd)"
+
+bwrap=(
+  bwrap
+  --unshare-all --share-net
+  --die-with-parent --cap-drop ALL
+  --ro-bind / /
+  --dev /dev --proc /proc
+  --tmpfs /tmp
+  --setenv TMPDIR /tmp
+  --setenv npm_config_cache /tmp/npm-cache
+  --bind "$PROJ" "$PROJ"
+  --ro-bind-try "$PROJ/.git" "$PROJ/.git"
+  --tmpfs "$HOME/.ssh"
+)
+
+case "${1:-}" in
+  opencode)
+    shift
+    mkdir -p "$HOME/.local/share/opencode" "$HOME/.local/state/opencode" "$HOME/.cache/opencode"
+    bwrap+=(
+      --bind "$CFG/opencode" "$HOME/.config/opencode"
+      --bind "$HOME/.local/share/opencode" "$HOME/.local/share/opencode"
+      --bind "$HOME/.local/state/opencode" "$HOME/.local/state/opencode"
+      --bind "$HOME/.cache/opencode" "$HOME/.cache/opencode"
+    )
+    bin=opencode
+    ;;
+  pi)
+    shift
+    mkdir -p "$HOME/.pi/agent"
+    bwrap+=(
+      --bind "$CFG/pi" "$HOME/.pi/agent"
+    )
+    bin=pi
+    ;;
+  *)
+    echo "usage: sbx <opencode|pi> [args...]" >&2
+    exit 1
+    ;;
+esac
+
+exec "${bwrap[@]}" --chdir "$PROJ" -- "$bin" "$@"

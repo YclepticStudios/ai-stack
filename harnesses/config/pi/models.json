@@ -1,6 +1,39 @@
 {
   "providers": {
-    "llama.cpp": {
+    "ninfer": {
+      "baseUrl": "http://127.0.0.1:9931/v1",
+      "api": "openai-completions",
+      "apiKey": "ninfer",
+      "models": [
+        {
+          "id": "qwen3.8-27b",
+          "name": "Qwen3.8:27B-Q4",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": "none",
+            "minimal": null,
+            "low": "low",
+            "medium": "medium",
+            "high": null,
+            "xhigh": "xhigh",
+            "max": null
+          },
+          "input": ["text"],
+          "contextWindow": 240000,
+          "maxTokens": 32000,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "supportsReasoningEffort": true,
+            "supportsUsageInStreaming": true,
+            "supportsStrictMode": false,
+            "maxTokensField": "max_tokens"
+          }
+        }
+      ]
+    },
+    "llamacpp": {
       "baseUrl": "http://127.0.0.1:9931/v1",
       "api": "openai-completions",
       "apiKey": "llama.cpp",
@@ -20,7 +53,7 @@
           },
           "input": ["text"],
           "contextWindow": 262144,
-          "maxTokens": 262144,
+          "maxTokens": 32000,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
           "compat": {
             "supportsStore": false,
@@ -46,7 +79,7 @@
           },
           "input": ["text"],
           "contextWindow": 172032,
-          "maxTokens": 172032,
+          "maxTokens": 32000,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
           "compat": {
             "supportsStore": false,
@@ -72,7 +105,7 @@
           },
           "input": ["text"],
           "contextWindow": 131072,
-          "maxTokens": 131072,
+          "maxTokens": 32000,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
           "compat": {
             "supportsStore": false,

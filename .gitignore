@@ -1,6 +1,9 @@
 .hf-cache/
-pi/agent/*
-!pi/agent/mcp.json
-!pi/agent/models.json
-!pi/agent/sandbox.json
-!pi/agent/settings.json
+
+harnesses/config/opencode/*
+!harnesses/config/opencode/opencode.jsonc
+
+harnesses/config/pi/*
+!harnesses/config/pi/mcp.json
+!harnesses/config/pi/models.json
+!harnesses/config/pi/settings.json
