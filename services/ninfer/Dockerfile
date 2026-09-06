@@ -60,9 +60,10 @@ CMD ["ninfer-serve", \
      "--kv-capacity", "240000", \
      "--max-concurrency", "2", \
      "--kv-dtype", "fp8", \
-     "--device-state-slots", "2", \
+     "--device-state-slots", "4", \
      "--host-state-slots", "8", \
      "--host-kv-mib", "8192", \
+     "--max-private-continuations", "8", \
      "--spec", "mtp", \
      "--draft-tokens", "3", \
      "--lm-head-draft", \
