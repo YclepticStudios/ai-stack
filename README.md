@@ -1,88 +1,99 @@
 # AI Stack
 
-This is a simple, local AI coding assistant configuration. It targets a system
-running Ubuntu 24.04 with a single NVIDIA 5090, although it should function on a
-range of Linux systems (potentially with a few tweaks). It is designed to
-provide a web chat interface as well as to run a sandboxed Pi coding harness.
-Determining all the right configuration options was an ordeal, so hopefully this
-can serve as a starting point for other setups.
+This is a simple, local AI coding assistant setup. It is built for Ubuntu 24.04
+running with a single NVIDIA 5090, although with some modifications it can be
+made to run on other systems. Containerized inference engines and MCP servers
+are provided in the services folder, while the harnesses folder provides
+configurations for running preconfigured, sandboxed coding harnesses.
 
-## Hosting Services
+This is an evolving configuration as I experiment with different tools and is
+provided to hopefully give others a jump-start on setting up their own
+configurations.
 
-All backend inference and search services are configured in
-`services/docker-compose.yml`:
+## Services
 
-- **llama-server**: [llama.cpp](https://github.com/ggml-org/llama.cpp) serves as
-  the inference engine with a web chat interface (plus OpenAI-compatible
-  endpoints) at [http://localhost:9931](http://localhost:9931). A web search
-  tool and a JS sandbox tool are enabled by default.
+- **llama-server**: [llama.cpp](https://github.com/ggml-org/llama.cpp) is one
+  inference engine option, serving a web chat interface (plus OpenAI-compatible
+  endpoints) at [http://localhost:9931](http://localhost:9931).
+- **ninfer**: [NInfer](https://github.com/Neroued/ninfer) is an alternative
+  inference engine, serving OpenAI- and Anthropic-compatible endpoints at the
+  same address (API only, no web chat). It has fewer options and less
+  compatibility but is notably faster.
 - **mcp-search**: A simple self-hosted, streamable-HTTP MCP server (at
   `http://localhost:9932`) provides `search_web` (DuckDuckGo) and `fetch_page`
-  (Chrome impersonation + trafilatura text extraction). It is exposed to the web
-  chat via llama-server's built-in MCP proxy and to Pi via an MCP extension.
+  (Chrome impersonation + trafilatura text extraction).
+
+Note: The two inference engines are alternatives: both bind port 9931 and want
+the whole GPU. Start only one of them, not both.
 
 ### Dependencies
 
 - [Docker Engine](https://docs.docker.com/engine/install/)
 - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+- [uv](https://docs.astral.sh/uv/)
 
 ### Usage
 
-The following commands can be used to build, start, and stop the server. Note
-that the first access to a model will trigger its download, which may take some
-time and does not provide feedback. Once launched, the web chat can be accessed
-at [http://localhost:9931](http://localhost:9931).
+Run one of the following commands to control the server:
 
 ```sh
-docker compose -f services/docker-compose.yml up --build   # Build and start
-docker compose -f services/docker-compose.yml down         # Stop
+services/llamacpp.sh   # Build and start (llama.cpp)
+services/ninfer.sh     # Build and start (NInfer)
+services/down.sh       # Stop everything
 ```
 
-## Pi
+Both servers provide OpenAI compatible endpoints at `http://127.0.0.1:9931/v1`.
 
-[Pi](https://pi.dev) is the coding agent harness which utilizes the above
-services. The [pi-sandbox](https://github.com/carderne/pi-sandbox) extension is
-configured to sandbox the agent to avoid unapproved edits outside the workspace
-or to the `.git/` folder as well as avoid unapproved network access.
+Note: First use may take a while to start since the models must be downloaded
+and NInfer compiled from source.
+
+## Harnesses
+
+- **opencode**: [OpenCode](https://opencode.ai) TUI agent (config in
+  `harnesses/config/opencode/`).
+- **pi**: [Pi](https://pi.dev) coding agent (config in `harnesses/config/pi/`).
+
+Both are preconfigured for the local inference engines at
+`http://127.0.0.1:9931`. They can be launched with the `sbx` script to disable
+writes outside the working directory and to `.git/` as well as to mask `~/.ssh`.
 
 ### Dependencies
 
-- [Pi](https://pi.dev/)
 - [bubblewrap](https://github.com/containers/bubblewrap)
-- [ripgrep](https://github.com/burntsushi/ripgrep)
+- [OpenCode](https://opencode.ai)
+- [Pi](https://pi.dev/)
 
 ### Setup
 
-Redirect the global Pi configuration to the repo's local `pi/` folder.
+Link the launcher onto your PATH:
 
 ```sh
-mv ~/.pi ~/.pi.bak 2>/dev/null  # Backup any existing ~/.pi configuration
-ln -sfn $(pwd)/pi ~/.pi         # Symlink the local pi folder to ~/.pi
+ln -sfn $(pwd)/harnesses/sbx ~/.local/bin/sbx
 ```
-
-Login to the local provider by launching Pi and running `/login llama.cpp`
-followed by the address of the llama.cpp server (typically
-`http://127.0.0.1:9931`).
 
 ### Usage
 
-Run `pi` as normal from the target project directory.
+Run the desired harness from the target project directory; further arguments are
+passed through to the harness:
 
 ```sh
 cd /project/path
-pi
+sbx pi
+sbx opencode
 ```
 
 ## LAN mode
 
 Everything is bound to loopback by default. To use the stack from other machines
-on a trusted network (none of it is authenticated), make these changes in
-`services/docker-compose.yml` and restart the services:
+on a trusted network (none of it is authenticated), expose the services on the
+stack machine and point each client machine's harness configs at it:
 
-- **Services**: Change `127.0.0.1:9931:9931` to `0.0.0.0:9931:9931` for
-  `llama-server` and `127.0.0.1:9932:9932` to `0.0.0.0:9932:9932` for
-  `mcp-search`.
-- **Pi**: Point each machine's `pi/agent/mcp.json` at
-  `http://<this machine's LAN IP>:9932/mcp` and on each machine run
-  `/login llama.cpp` in Pi, entering `http://<this machine's LAN IP>:9931`
-  instead of the local URL.
+- **Services**: In `services/docker-compose.yml`, change `127.0.0.1:9931:9931`
+  to `0.0.0.0:9931:9931` for the inference engine (`llama-server` or `ninfer`)
+  and `127.0.0.1:9932:9932` to `0.0.0.0:9932:9932` for `mcp-search`, then
+  restart the services.
+- **Harnesses**: On each client machine, set the `baseURL` fields in
+  `harnesses/config/opencode/opencode.jsonc` and the `baseUrl` fields in
+  `harnesses/config/pi/models.json` to `http://<stack machine IP>:9931/v1`, and
+  the `url` in `harnesses/config/pi/mcp.json` to
+  `http://<stack machine IP>:9932/mcp`.

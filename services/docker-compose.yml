@@ -1,7 +1,8 @@
 services:
-  # Inference server and web ui host
+  # llama.cpp inference engine with web chat UI
   llama-server:
-    image: ghcr.io/ggml-org/llama.cpp:server-cuda13-b10680
+    build:
+      context: ./llamacpp
     container_name: llama-server
     restart: unless-stopped
     healthcheck:
@@ -9,16 +10,7 @@ services:
     ports:
       - "127.0.0.1:9931:9931"
     volumes:
-      - ./llamacpp/.hf-cache:/root/.cache/huggingface:rw
-      - ./llamacpp/preset.ini:/app/preset.ini:ro
-      - ./llamacpp/ui-config.json:/app/ui-config.json:ro
-    environment:
-      HF_HOME: /root/.cache/huggingface
-      LLAMA_ARG_CORS_ORIGINS: http://localhost:9931,http://127.0.0.1:9931
-      LLAMA_ARG_MODELS_MAX: 1
-      LLAMA_ARG_MODELS_PRESET: /app/preset.ini
-      LLAMA_ARG_UI_CONFIG_FILE: /app/ui-config.json
-      LLAMA_ARG_UI_MCP_PROXY: "true"
+      - ./.hf-cache:/root/.cache/huggingface:rw
     deploy:
       resources:
         reservations:
@@ -26,17 +18,29 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-    command:
-      - --host
-      - 0.0.0.0
-      - --port
-      - "9931"
+
+  # NInfer inference engine
+  ninfer:
+    build:
+      context: ./ninfer
+    container_name: ninfer
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9931:9931"
+    volumes:
+      - ./.hf-cache:/models:ro
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
   # MCP search + fetch
   mcp-search:
     build:
       context: ./mcp-search
-      dockerfile: Dockerfile
     container_name: mcp-search
     restart: unless-stopped
     ports:
