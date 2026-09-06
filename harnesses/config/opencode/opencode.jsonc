@@ -19,9 +19,6 @@
           "modalities": {
             "input": ["text", "image"],
           },
-          "interleaved": {
-            "field": "reasoning_content",
-          },
           "reasoning": true,
           "variants": {
             "none": {
@@ -53,9 +50,6 @@
             "context": 262144,
             "output": 32000,
           },
-          "interleaved": {
-            "field": "reasoning_content",
-          },
           "reasoning": true,
           "variants": {
             "none": {
@@ -78,9 +72,6 @@
             "context": 172032,
             "output": 32000,
           },
-          "interleaved": {
-            "field": "reasoning_content",
-          },
           "reasoning": true,
           "variants": {
             "none": {
@@ -102,9 +93,6 @@
           "limit": {
             "context": 131072,
             "output": 32000,
-          },
-          "interleaved": {
-            "field": "reasoning_content",
           },
           "reasoning": true,
           "variants": {
@@ -137,6 +125,9 @@
     "edit": {
       ".git/**": "deny",
       "**/.git/**": "deny",
+    },
+    "external_directory": {
+      "/tmp/**": "allow",
     },
   },
 }
