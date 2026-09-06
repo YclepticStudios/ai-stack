@@ -43,8 +43,6 @@ services/down.sh       # Stop everything
 ```
 
 Both servers provide OpenAI compatible endpoints at `http://127.0.0.1:9931/v1`.
-The llama.cpp server additionally provides a web chat at
-[http://localhost:9931](http://localhost:9931).
 
 Note: First use may take a while to start since the models must be downloaded
 and NInfer compiled from source.

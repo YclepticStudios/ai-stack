@@ -23,8 +23,11 @@ bwrap=(
   --setenv npm_config_cache /tmp/npm-cache
   --bind "$PROJ" "$PROJ"
   --ro-bind-try "$PROJ/.git" "$PROJ/.git"
-  --tmpfs "$HOME/.ssh"
 )
+# Mask over sensitive directory
+if [ -d "$HOME/.ssh" ]; then
+  bwrap+=(--tmpfs "$HOME/.ssh")
+fi
 
 case "${1:-}" in
   opencode)
