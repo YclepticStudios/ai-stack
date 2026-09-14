@@ -13,7 +13,7 @@
         "qwen3.8-27b": {
           "name": "Qwen3.8:27B",
           "limit": {
-            "context": 240000,
+            "context": 180000,
             "output": 32000,
           },
           "modalities": {
@@ -33,6 +33,12 @@
             "xhigh": {
               "reasoningEffort": "xhigh",
             },
+          },
+          "cost": {
+            "cache_read": 0.5,
+            "cache_write": 10,
+            "input": 5,
+            "output": 25,
           },
         },
       },
@@ -121,6 +127,9 @@
     "openTelemetry": false,
   },
   "enabled_providers": ["ninfer", "llama.cpp"],
+  "compaction": {
+    "auto": false,
+  },
   "permission": {
     "edit": {
       ".git/**": "deny",

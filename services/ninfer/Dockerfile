@@ -3,7 +3,7 @@
 # Build stage
 FROM nvidia/cuda:13.1.2-devel-ubuntu24.04 AS build
 
-ARG NINFER_REF=ad0f3d384b5cbcec4a48a3951c287b4e9831443e
+ARG NINFER_REF=d49296868dcc17bd478ec185f0d3a801bcc0bf56
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get install --yes --no-install-recommends \
@@ -56,16 +56,16 @@ CMD ["ninfer-serve", \
      "/models/qwen3_8_27b_nvfp4.ninfer", \
      "--host", "0.0.0.0", \
      "--port", "9931", \
-     "--max-context", "240000", \
-     "--kv-capacity", "240000", \
+     "--max-context", "180000", \
+     "--kv-capacity", "180000", \
      "--max-concurrency", "2", \
      "--kv-dtype", "fp8", \
      "--device-state-slots", "4", \
      "--host-state-slots", "8", \
      "--host-kv-mib", "8192", \
-     "--max-private-continuations", "8", \
-     "--spec", "mtp", \
-     "--draft-tokens", "3", \
+     "--max-long-anchors-per-continuation", "4", \
+     "--spec", "dflash2", \
+     "--draft-tokens", "7", \
      "--lm-head-draft", \
      "--vision", \
      "--preserve-thinking"]
