@@ -19,7 +19,7 @@
             "max": null
           },
           "input": ["text", "image"],
-          "contextWindow": 180000,
+          "contextWindow": 245760,
           "maxTokens": 32000,
           "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
           "compat": {

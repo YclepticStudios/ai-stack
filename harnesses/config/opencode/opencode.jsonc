@@ -13,7 +13,7 @@
         "qwen3.8-27b": {
           "name": "Qwen3.8:27B",
           "limit": {
-            "context": 180000,
+            "context": 245760,
             "output": 32000,
           },
           "modalities": {

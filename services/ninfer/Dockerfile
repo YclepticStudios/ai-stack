@@ -56,12 +56,9 @@ CMD ["ninfer-serve", \
      "/models/qwen3_8_27b_nvfp4.ninfer", \
      "--host", "0.0.0.0", \
      "--port", "9931", \
-     "--max-context", "180000", \
-     "--kv-capacity", "180000", \
+     "--max-context", "245760", \
      "--max-concurrency", "2", \
-     "--kv-dtype", "fp8", \
-     "--device-state-slots", "4", \
-     "--host-state-slots", "8", \
+     "--kv-dtype", "k8v4", \
      "--host-kv-mib", "8192", \
      "--max-long-anchors-per-continuation", "4", \
      "--spec", "dflash2", \
