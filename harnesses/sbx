@@ -24,6 +24,12 @@ bwrap=(
   --bind "$PROJ" "$PROJ"
   --ro-bind-try "$PROJ/.git" "$PROJ/.git"
 )
+# GPU passthrough
+for dev in /dev/nvidia* /dev/dri; do
+  if [ -e "$dev" ]; then
+    bwrap+=(--dev-bind-try "$dev" "$dev")
+  fi
+done
 # Mask over sensitive directory
 if [ -d "$HOME/.ssh" ]; then
   bwrap+=(--tmpfs "$HOME/.ssh")

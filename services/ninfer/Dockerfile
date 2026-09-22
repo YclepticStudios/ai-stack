@@ -56,9 +56,9 @@ CMD ["ninfer-serve", \
      "/models/qwen3_8_27b_nvfp4.ninfer", \
      "--host", "0.0.0.0", \
      "--port", "9931", \
-     "--max-context", "245760", \
+     "--max-context", "190000", \
      "--max-concurrency", "2", \
-     "--kv-dtype", "k8v4", \
+     "--kv-dtype", "fp8", \
      "--host-kv-mib", "8192", \
      "--max-long-anchors-per-continuation", "4", \
      "--spec", "dflash2", \

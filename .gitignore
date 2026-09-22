@@ -1,4 +1,5 @@
 .hf-cache/
+scratch/
 
 harnesses/config/opencode/*
 !harnesses/config/opencode/opencode.jsonc
