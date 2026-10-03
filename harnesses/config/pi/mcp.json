@@ -1,14 +1,9 @@
 {
-  "settings": {
-    "disableProxyTool": true,
-    "scriptMode": false,
-    "mcpFooterStatus": "off"
-  },
   "mcpServers": {
-    "mcp-search": {
+    "search": {
       "url": "http://localhost:9932/mcp",
-      "lifecycle": "eager",
-      "directTools": true
+      "exposure": "direct",
+      "description": "Search the web with DuckDuckGo and fetch web pages."
     }
   }
 }

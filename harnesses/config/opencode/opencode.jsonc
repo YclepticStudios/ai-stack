@@ -139,9 +139,6 @@
     "openTelemetry": false,
   },
   "enabled_providers": ["ninfer", "llama.cpp"],
-  "compaction": {
-    "auto": false,
-  },
   "permission": {
     "edit": {
       ".git/**": "deny",
