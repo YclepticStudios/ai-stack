@@ -3,7 +3,7 @@
 # Build stage
 FROM nvidia/cuda:13.1.2-devel-ubuntu24.04 AS build
 
-ARG NINFER_REF=d49296868dcc17bd478ec185f0d3a801bcc0bf56
+ARG NINFER_REF=bace20dc70249eed6402b66d4852c6c3f9612905
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get install --yes --no-install-recommends \
