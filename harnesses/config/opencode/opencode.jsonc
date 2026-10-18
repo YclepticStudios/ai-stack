@@ -43,6 +43,46 @@
         },
       },
     },
+    "strata": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "strata (local)",
+      "options": {
+        "baseURL": "http://127.0.0.1:9931/v1",
+      },
+      "models": {
+        "qwen3.8-flash-next-gptq-nvfp4": {
+          "name": "Qwen3.8-flash-next",
+          "limit": {
+            "context": 262144,
+            "output": 64000,
+          },
+          "modalities": {
+            "input": ["text", "image"],
+          },
+          "reasoning": true,
+          "variants": {
+            "none": {
+              "reasoningEffort": "none",
+            },
+            "low": {
+              "reasoningEffort": "low",
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+            },
+          },
+          "cost": {
+            "cache_read": 0.5,
+            "cache_write": 10,
+            "input": 5,
+            "output": 25,
+          },
+        },
+      },
+    },
     "llama.cpp": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "llama.cpp (local)",
@@ -138,7 +178,7 @@
   "experimental": {
     "openTelemetry": false,
   },
-  "enabled_providers": ["ninfer", "llama.cpp"],
+  "enabled_providers": ["ninfer", "strata", "llama.cpp"],
   "permission": {
     "edit": {
       ".git/**": "deny",

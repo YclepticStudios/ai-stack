@@ -38,6 +38,44 @@
         }
       ]
     },
+    "strata-nvfp4": {
+      "baseUrl": "http://127.0.0.1:9931/v1",
+      "api": "openai-completions",
+      "apiKey": "strata-nvfp4",
+      "models": [
+        {
+          "id": "qwen3.8-flash-next-gptq-nvfp4",
+          "name": "Qwen3.8-flash-next",
+          "reasoning": true,
+          "thinkingLevelMap": {
+            "off": "none",
+            "minimal": null,
+            "low": "low",
+            "medium": "medium",
+            "high": null,
+            "xhigh": "xhigh",
+            "max": null
+          },
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "maxTokens": 64000,
+          "cost": {
+            "input": 5,
+            "output": 25,
+            "cacheRead": 0.5,
+            "cacheWrite": 10
+          },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "supportsReasoningEffort": true,
+            "supportsUsageInStreaming": true,
+            "supportsStrictMode": false,
+            "maxTokensField": "max_tokens"
+          }
+        }
+      ]
+    },
     "llamacpp": {
       "baseUrl": "http://127.0.0.1:9931/v1",
       "api": "openai-completions",

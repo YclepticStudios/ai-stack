@@ -37,6 +37,30 @@ services:
               count: all
               capabilities: [gpu]
 
+  # Strata inference engine
+  strata:
+    build:
+      context: ./strata
+    container_name: strata
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9931:9931"
+    volumes:
+      - ./.hf-cache:/models:ro
+    # The pinned RAM needs unlimited memlock and a longer stop than the default
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    stop_grace_period: 60s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
   # MCP search + fetch
   mcp-search:
     build:
