@@ -25,6 +25,7 @@ configurations.
 - [Docker Engine](https://docs.docker.com/engine/install/)
 - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 - [uv](https://docs.astral.sh/uv/)
+- [curl](https://curl.se/)
 
 ### Usage
 
