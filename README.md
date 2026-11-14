@@ -19,15 +19,18 @@ configurations.
   inference engine, serving OpenAI- and Anthropic-compatible endpoints at the
   same address (API only, no web chat). It has fewer options and less
   compatibility but is notably faster.
-- **strata**: [Strata NVFP4](https://github.com/sergqwer/strata-nvfp4) runs
+- **strata**: [Strata](https://github.com/Niko1221/Strata) runs
   Qwen3.8-Flash-Next, a 125B MoE model with NVFP4 experts that mostly live in
   system RAM rather than VRAM, serving the same OpenAI- and Anthropic-compatible
   endpoints.
+- **basalt**: [Basalt](https://github.com/jesdga95/basalt) is another engine,
+  serving the same OpenAI- and Anthropic-compatible endpoints. It loads three
+  models: Qwen3.8-Flash-Next, Qwen3.8-27B and DeepSeek-V4.1-Flash.
 - **mcp-search**: A simple self-hosted, streamable-HTTP MCP server (at
   `http://localhost:9932`) provides `search_web` (DuckDuckGo) and `fetch_page`
   (Chrome impersonation + trafilatura text extraction).
 
-Note: The three inference engines are alternatives: all bind port 9931 and want
+Note: The four inference engines are alternatives: all bind port 9931 and want
 the whole GPU. Start only one at a time.
 
 ### Dependencies
@@ -44,14 +47,14 @@ Run one of the following commands to control the server:
 services/llamacpp.sh   # Build and start (llama.cpp)
 services/ninfer.sh     # Build and start (NInfer)
 services/strata.sh     # Build and start (Strata)
+services/basalt.sh     # Build and start (Basalt)
 services/down.sh       # Stop everything
 ```
 
-All three servers provide OpenAI compatible endpoints at
-`http://127.0.0.1:9931/v1`.
+All servers provide OpenAI compatible endpoints at `http://127.0.0.1:9931/v1`.
 
-Note: First use may take a while to start since the models must be downloaded,
-and NInfer and Strata are compiled from source into their images.
+Note: First use may take a while to start since the models must be downloaded
+and some engines compiled.
 
 ## Harnesses
 
@@ -95,9 +98,9 @@ on a trusted network (none of it is authenticated), expose the services on the
 stack machine and point each client machine's harness configs at it:
 
 - **Services**: In `services/docker-compose.yml`, change `127.0.0.1:9931:9931`
-  to `0.0.0.0:9931:9931` for the inference engine (`llama-server`, `ninfer` or
-  `strata`) and `127.0.0.1:9932:9932` to `0.0.0.0:9932:9932` for `mcp-search`,
-  then restart the services.
+  to `0.0.0.0:9931:9931` for the inference engine (`llama-server`, `ninfer`,
+  `strata` or `basalt`) and `127.0.0.1:9932:9932` to `0.0.0.0:9932:9932` for
+  `mcp-search`, then restart the services.
 - **Harnesses**: On each client machine, set the `baseURL` fields in
   `harnesses/config/opencode/opencode.jsonc` and the `baseUrl` fields in
   `harnesses/config/pi/models.json` to `http://<stack machine IP>:9931/v1`, and

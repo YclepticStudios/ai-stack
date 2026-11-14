@@ -1,58 +1,40 @@
 services:
-  # llama.cpp inference engine with web chat UI
-  llama-server:
+  # Basalt inference engine (built from upstream; bump the pinned tag to update)
+  basalt:
     build:
-      context: ./llamacpp
+      context: https://github.com/jesdga95/basalt.git#v0.4.0
+    container_name: basalt
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9931:9931"
+    volumes:
+      - ./.hf-cache/basalt:/models:ro
+      - basalt-data:/data:rw
+      - ./basalt/basalt_config.json:/data/basalt_config.json:ro
+    stop_grace_period: 60s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # llama.cpp inference engine with web chat UI (bump the image tag to update)
+  llama-server:
+    image: ghcr.io/ggml-org/llama.cpp:server-cuda13-v1.0.0-b12359-b1b770d
     container_name: llama-server
     restart: unless-stopped
     healthcheck:
       disable: true
+    environment:
+      LLAMA_ARG_PORT: "9931"
     ports:
       - "127.0.0.1:9931:9931"
     volumes:
-      - ./.hf-cache:/root/.cache/huggingface:rw
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-
-  # NInfer inference engine
-  ninfer:
-    build:
-      context: ./ninfer
-    container_name: ninfer
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:9931:9931"
-    volumes:
-      - ./.hf-cache:/models:ro
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
-
-  # Strata inference engine
-  strata:
-    build:
-      context: ./strata
-    container_name: strata
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:9931:9931"
-    volumes:
-      - ./.hf-cache:/models:ro
-    # The pinned RAM needs unlimited memlock and a longer stop than the default
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    stop_grace_period: 60s
+      - ./.hf-cache/llamacpp:/root/.cache/huggingface:rw
+      - ./llamacpp:/cfg:ro
+      - ./llamacpp/config.ini:/etc/llama.cpp/config.ini:ro
     deploy:
       resources:
         reservations:
@@ -69,3 +51,60 @@ services:
     restart: unless-stopped
     ports:
       - "127.0.0.1:9932:9932"
+
+  # NInfer inference engine (built from upstream; bump the pinned commit to update)
+  ninfer:
+    build:
+      context: https://github.com/Neroued/ninfer.git#d9ad9dea4cdbc64ec44b5b18704b46b5db2613dc
+    container_name: ninfer
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9931:9931"
+    volumes:
+      - ./.hf-cache/ninfer:/models:ro
+      - ./ninfer/serve.toml:/etc/ninfer/serve.toml:ro
+    command: ["ninfer-serve", "--config", "/etc/ninfer/serve.toml"]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # Strata inference engine (upstream prebuilt image; bump the pinned tag to update)
+  strata:
+    image: ghcr.io/niko1221/strata:0.2.13-cuda13
+    container_name: strata
+    restart: unless-stopped
+    shm_size: 2gb
+    ports:
+      - "127.0.0.1:9931:9931"
+    environment:
+      FAMILY: nvfp4
+      MODEL: NVFP4
+      CONTEXT: "262144"
+      KV: int8
+      VISION: "on"
+      PORT: "9931"
+      API_KEY: strata-local-key
+    volumes:
+      - strata-data:/data:rw
+      - ./.hf-cache/strata:/data/Strata-data:rw
+    # The pinned RAM needs unlimited memlock and a longer stop than the default
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    stop_grace_period: 120s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  basalt-data:
+  strata-data:

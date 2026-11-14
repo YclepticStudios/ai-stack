@@ -1,6 +1,6 @@
 {
-  "defaultProvider": "ninfer",
-  "defaultModel": "qwen3.8-27b",
+  "defaultProvider": "basalt",
+  "defaultModel": "qwen3.8-flash-next",
   "defaultThinkingLevel": "medium",
   "lastChangelogVersion": "1.0.0",
   "theme": "dark",

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "models": [
+    {
+      "model": "/models/Qwen3.8-FN-NVFP4-DQ6_K.basalt",
+      "alias": "qwen3.8-flash-next",
+      "gpu": "auto",
+      "max-context": 262144,
+      "kv": "int8",
+      "vision": "dynamic"
+    },
+    {
+      "model": "/models/Qwen3.8-27B-NVFP4.basalt",
+      "alias": "qwen3.8-27b",
+      "gpu": "auto",
+      "max-context": 262144,
+      "kv": "int8",
+      "vision": "dynamic"
+    },
+    {
+      "model": "/models/DeepSeek-V4.1-Flash-1017-UD-IQ1_M.basalt",
+      "alias": "deepseek-v4.1-flash",
+      "gpu": "auto",
+      "max-context": 262144,
+      "kv": "fp8",
+      "vision": "dynamic"
+    }
+  ],
+  "engine": {
+    "resident-experts": true,
+    "vram-reserve-mib": 700
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 9931
+  }
+}

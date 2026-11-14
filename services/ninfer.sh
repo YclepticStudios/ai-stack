@@ -5,7 +5,7 @@
 set -euo pipefail
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
-MODEL_DIR="$DIR/.hf-cache"
+MODEL_DIR="$DIR/.hf-cache/ninfer"
 MODEL="$MODEL_DIR/qwen3_8_27b_nvfp4.ninfer"
 
 if [ ! -f "$MODEL" ]; then

@@ -4,7 +4,10 @@ set -euo pipefail
 cd "$(cd "$(dirname "$0")" && pwd)/.."
 
 echo "===== Root formatting ====="
-uv run --with nodejs-wheel npx --yes prettier@3 --check README.md .prettierrc.json .github/workflows/*.yml
+uv run --with nodejs-wheel npx --yes prettier@3 --check README.md .prettierrc.json .github/workflows/*.yml services/docker-compose.yml services/basalt/basalt_config.json services/llamacpp/*.json
+
+echo "===== Compose config ====="
+docker compose -f services/docker-compose.yml config --quiet
 
 echo "===== Harness formatting ====="
 uv run --with nodejs-wheel npx --yes prettier@3 --check harnesses/config/opencode/opencode.jsonc harnesses/config/pi/settings.json harnesses/config/pi/mcp.json harnesses/config/pi/models.json
