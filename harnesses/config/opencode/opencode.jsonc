@@ -14,6 +14,14 @@
             "context": 262144,
             "output": 64000,
           },
+          "cost": {
+            "input": 4,
+            "output": 20,
+            "cache": {
+              "read": 0.2,
+              "write": 8,
+            },
+          },
           "capabilities": {
             "reasoning": {
               "supported": true,
@@ -26,6 +34,14 @@
           "limit": {
             "context": 250000,
             "output": 64000,
+          },
+          "cost": {
+            "input": 4,
+            "output": 20,
+            "cache": {
+              "read": 0.2,
+              "write": 8,
+            },
           },
           "capabilities": {
             "reasoning": {
@@ -40,11 +56,19 @@
             "context": 262144,
             "output": 64000,
           },
+          "cost": {
+            "input": 4,
+            "output": 20,
+            "cache": {
+              "read": 0.2,
+              "write": 8,
+            },
+          },
           "capabilities": {
             "reasoning": {
               "supported": true,
               "toggle": true,
-              "effort": ["low", "medium", "high"],
+              "effort": ["low", "high", "max"],
             },
           },
         },

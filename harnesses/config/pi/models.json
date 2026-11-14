@@ -1,4 +1,5 @@
 {
+  "$schema": "https://pi.dev/schemas/models.schema.json",
   "providers": {
     "basalt": {
       "baseUrl": "http://127.0.0.1:9931/v1",
@@ -22,18 +23,10 @@
           "contextWindow": 262144,
           "maxTokens": 64000,
           "cost": {
-            "input": 5,
-            "output": 25,
-            "cacheRead": 0.5,
-            "cacheWrite": 10
-          },
-          "compat": {
-            "supportsStore": false,
-            "supportsDeveloperRole": false,
-            "supportsReasoningEffort": true,
-            "supportsUsageInStreaming": true,
-            "supportsStrictMode": false,
-            "maxTokensField": "max_tokens"
+            "input": 4,
+            "output": 20,
+            "cacheRead": 0.2,
+            "cacheWrite": 8
           }
         },
         {
@@ -53,18 +46,10 @@
           "contextWindow": 250000,
           "maxTokens": 64000,
           "cost": {
-            "input": 5,
-            "output": 25,
-            "cacheRead": 0.5,
-            "cacheWrite": 10
-          },
-          "compat": {
-            "supportsStore": false,
-            "supportsDeveloperRole": false,
-            "supportsReasoningEffort": true,
-            "supportsUsageInStreaming": true,
-            "supportsStrictMode": false,
-            "maxTokensField": "max_tokens"
+            "input": 4,
+            "output": 20,
+            "cacheRead": 0.2,
+            "cacheWrite": 8
           }
         },
         {
@@ -75,7 +60,7 @@
             "off": "none",
             "minimal": null,
             "low": "low",
-            "medium": "medium",
+            "medium": null,
             "high": "high",
             "xhigh": null,
             "max": "max"
@@ -84,18 +69,10 @@
           "contextWindow": 262144,
           "maxTokens": 64000,
           "cost": {
-            "input": 5,
-            "output": 25,
-            "cacheRead": 0.5,
-            "cacheWrite": 10
-          },
-          "compat": {
-            "supportsStore": false,
-            "supportsDeveloperRole": false,
-            "supportsReasoningEffort": true,
-            "supportsUsageInStreaming": true,
-            "supportsStrictMode": false,
-            "maxTokensField": "max_tokens"
+            "input": 4,
+            "output": 20,
+            "cacheRead": 0.2,
+            "cacheWrite": 8
           }
         }
       ]

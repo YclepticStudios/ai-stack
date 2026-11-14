@@ -1,8 +1,9 @@
 {
+  "$schema": "https://pi.dev/schemas/settings.schema.json",
   "defaultProvider": "basalt",
   "defaultModel": "qwen3.8-flash-next",
   "defaultThinkingLevel": "medium",
-  "lastChangelogVersion": "1.0.0",
+  "lastChangelogVersion": "1.5.2",
   "theme": "dark",
   "hideThinkingBlock": true,
   "tuiMode": "fullscreen"
