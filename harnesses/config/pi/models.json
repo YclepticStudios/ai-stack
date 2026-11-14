@@ -45,13 +45,13 @@
             "minimal": null,
             "low": "low",
             "medium": "medium",
-            "high": null,
-            "xhigh": "xhigh",
+            "high": "high",
+            "xhigh": null,
             "max": null
           },
           "input": ["text", "image"],
           "contextWindow": 250000,
-          "maxTokens": 32000,
+          "maxTokens": 64000,
           "cost": {
             "input": 5,
             "output": 25,
@@ -75,7 +75,7 @@
             "off": "none",
             "minimal": null,
             "low": "low",
-            "medium": null,
+            "medium": "medium",
             "high": "high",
             "xhigh": null,
             "max": "max"

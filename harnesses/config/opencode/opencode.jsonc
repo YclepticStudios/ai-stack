@@ -1,124 +1,58 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "basalt/qwen3.8-flash-next",
-  "small_model": "basalt/qwen3.8-flash-next",
-  "provider": {
+  "share": "disabled",
+  "providers": {
     "basalt": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "basalt (local)",
-      "options": {
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
         "baseURL": "http://127.0.0.1:9931/v1",
-        "apiKey": "basalt",
       },
       "models": {
         "qwen3.8-flash-next": {
-          "name": "Qwen3.8-flash-next",
           "limit": {
             "context": 262144,
             "output": 64000,
           },
-          "modalities": {
-            "input": ["text", "image"],
-          },
-          "reasoning": true,
-          "variants": {
-            "none": {
-              "reasoningEffort": "none",
+          "capabilities": {
+            "reasoning": {
+              "supported": true,
+              "toggle": true,
+              "effort": ["low", "medium", "high"],
             },
-            "low": {
-              "reasoningEffort": "low",
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-            },
-            "high": {
-              "reasoningEffort": "high",
-            },
-          },
-          "cost": {
-            "cache_read": 0.5,
-            "cache_write": 10,
-            "input": 5,
-            "output": 25,
           },
         },
         "qwen3.8-27b": {
-          "name": "Qwen3.8:27B",
           "limit": {
             "context": 250000,
-            "output": 32000,
+            "output": 64000,
           },
-          "modalities": {
-            "input": ["text", "image"],
-          },
-          "reasoning": true,
-          "variants": {
-            "none": {
-              "reasoningEffort": "none",
+          "capabilities": {
+            "reasoning": {
+              "supported": true,
+              "toggle": true,
+              "effort": ["low", "medium", "high"],
             },
-            "low": {
-              "reasoningEffort": "low",
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-            },
-          },
-          "cost": {
-            "cache_read": 0.5,
-            "cache_write": 10,
-            "input": 5,
-            "output": 25,
           },
         },
         "deepseek-v4.1-flash": {
-          "name": "DeepSeek V4.1 Flash",
           "limit": {
             "context": 262144,
             "output": 64000,
           },
-          "modalities": {
-            "input": ["text", "image"],
-          },
-          "reasoning": true,
-          "variants": {
-            "none": {
-              "reasoningEffort": "none",
+          "capabilities": {
+            "reasoning": {
+              "supported": true,
+              "toggle": true,
+              "effort": ["low", "medium", "high"],
             },
-            "low": {
-              "reasoningEffort": "low",
-            },
-            "high": {
-              "reasoningEffort": "high",
-            },
-            "max": {
-              "reasoningEffort": "max",
-            },
-          },
-          "cost": {
-            "cache_read": 0.5,
-            "cache_write": 10,
-            "input": 5,
-            "output": 25,
           },
         },
       },
     },
   },
-  "share": "disabled",
-  "experimental": {
-    "openTelemetry": false,
-  },
-  "enabled_providers": ["basalt"],
-  "permission": {
-    "edit": {
-      ".git/**": "deny",
-      "**/.git/**": "deny",
-    },
-    "external_directory": {
-      "/tmp/**": "allow",
-    },
-  },
+  "policies": [
+    { "action": "provider.use", "resource": "*", "effect": "deny" },
+    { "action": "provider.use", "resource": "basalt", "effect": "allow" },
+  ],
 }
