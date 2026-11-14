@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(cd "$(dirname "$0")" && pwd)/.."
 
 echo "===== Root formatting ====="
-uv run --with nodejs-wheel npx --yes prettier@3 --check README.md .prettierrc.json .github/workflows/*.yml services/docker-compose.yml services/basalt/basalt_config.json services/llamacpp/*.json
+uv run --with nodejs-wheel npx --yes prettier@3 --check README.md .prettierrc.json .github/workflows/*.yml services/docker-compose.yml services/basalt/basalt_config.json
 
 echo "===== Compose config ====="
 docker compose -f services/docker-compose.yml config --quiet

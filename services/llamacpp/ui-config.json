@@ -1,4 +1,0 @@
-{
-  "jsSandboxEnabled": true,
-  "mcpServers": "[{\"enabled\":true,\"id\":\"mcp-search\",\"url\":\"http://mcp-search:9932/mcp\",\"useProxy\":true}]"
-}

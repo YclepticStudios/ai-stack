@@ -3,87 +3,6 @@
   "model": "basalt/qwen3.8-flash-next",
   "small_model": "basalt/qwen3.8-flash-next",
   "provider": {
-    "ninfer": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "ninfer (local)",
-      "options": {
-        "baseURL": "http://127.0.0.1:9931/v1",
-      },
-      "models": {
-        "qwen3.8-27b": {
-          "name": "Qwen3.8:27B",
-          "limit": {
-            "context": 190000,
-            "output": 32000,
-          },
-          "modalities": {
-            "input": ["text", "image"],
-          },
-          "reasoning": true,
-          "variants": {
-            "none": {
-              "reasoningEffort": "none",
-            },
-            "low": {
-              "reasoningEffort": "low",
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-            },
-          },
-          "cost": {
-            "cache_read": 0.5,
-            "cache_write": 10,
-            "input": 5,
-            "output": 25,
-          },
-        },
-      },
-    },
-    "strata": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "strata (local)",
-      "options": {
-        "baseURL": "http://127.0.0.1:9931/v1",
-        "apiKey": "strata-local-key",
-      },
-      "models": {
-        "qwen3.8-flash-next-nvfp4-nvfp4": {
-          "name": "Qwen3.8-flash-next",
-          "limit": {
-            "context": 262144,
-            "output": 64000,
-          },
-          "modalities": {
-            "input": ["text", "image"],
-          },
-          "reasoning": true,
-          "variants": {
-            "none": {
-              "reasoningEffort": "none",
-            },
-            "low": {
-              "reasoningEffort": "low",
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-            },
-          },
-          "cost": {
-            "cache_read": 0.5,
-            "cache_write": 10,
-            "input": 5,
-            "output": 25,
-          },
-        },
-      },
-    },
     "basalt": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "basalt (local)",
@@ -126,7 +45,7 @@
         "qwen3.8-27b": {
           "name": "Qwen3.8:27B",
           "limit": {
-            "context": 262144,
+            "context": 250000,
             "output": 32000,
           },
           "modalities": {
@@ -187,102 +106,12 @@
         },
       },
     },
-    "llama.cpp": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "llama.cpp (local)",
-      "options": {
-        "baseURL": "http://127.0.0.1:9931/v1",
-      },
-      "models": {
-        "unsloth/Qwen3.8-27B-GGUF:Q4_K_XL": {
-          "name": "Qwen3.8:27B-Q4",
-          "limit": {
-            "context": 262144,
-            "output": 32000,
-          },
-          "reasoning": true,
-          "cost": {
-            "cache_read": 0.5,
-            "cache_write": 10,
-            "input": 5,
-            "output": 25,
-          },
-          "variants": {
-            "none": {
-              "reasoningEffort": "none",
-            },
-            "low": {
-              "reasoningEffort": "low",
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-            },
-          },
-        },
-        "unsloth/Qwen3.8-27B-GGUF:Q6_K": {
-          "name": "Qwen3.8:27B-Q6",
-          "limit": {
-            "context": 172032,
-            "output": 32000,
-          },
-          "reasoning": true,
-          "cost": {
-            "cache_read": 0.5,
-            "cache_write": 10,
-            "input": 5,
-            "output": 25,
-          },
-          "variants": {
-            "none": {
-              "reasoningEffort": "none",
-            },
-            "low": {
-              "reasoningEffort": "low",
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-            },
-          },
-        },
-        "unsloth/Muse-Glimmer-30B-GGUF:Q6_K_XL": {
-          "name": "MuseGlimmer:30B-Q6",
-          "limit": {
-            "context": 131072,
-            "output": 32000,
-          },
-          "reasoning": true,
-          "variants": {
-            "none": {
-              "reasoningEffort": "none",
-            },
-            "low": {
-              "reasoningEffort": "low",
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-            },
-            "high": {
-              "reasoningEffort": "high",
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-            },
-          },
-        },
-      },
-    },
   },
   "share": "disabled",
   "experimental": {
     "openTelemetry": false,
   },
-  "enabled_providers": ["ninfer", "strata", "basalt", "llama.cpp"],
+  "enabled_providers": ["basalt"],
   "permission": {
     "edit": {
       ".git/**": "deny",

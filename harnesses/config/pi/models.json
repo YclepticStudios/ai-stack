@@ -1,81 +1,5 @@
 {
   "providers": {
-    "ninfer": {
-      "baseUrl": "http://127.0.0.1:9931/v1",
-      "api": "openai-completions",
-      "apiKey": "ninfer",
-      "models": [
-        {
-          "id": "qwen3.8-27b",
-          "name": "Qwen3.8:27B",
-          "reasoning": true,
-          "thinkingLevelMap": {
-            "off": "none",
-            "minimal": null,
-            "low": "low",
-            "medium": "medium",
-            "high": null,
-            "xhigh": "xhigh",
-            "max": null
-          },
-          "input": ["text", "image"],
-          "contextWindow": 190000,
-          "maxTokens": 32000,
-          "cost": {
-            "input": 5,
-            "output": 25,
-            "cacheRead": 0.5,
-            "cacheWrite": 10
-          },
-          "compat": {
-            "supportsStore": false,
-            "supportsDeveloperRole": false,
-            "supportsReasoningEffort": true,
-            "supportsUsageInStreaming": true,
-            "supportsStrictMode": false,
-            "maxTokensField": "max_tokens"
-          }
-        }
-      ]
-    },
-    "strata": {
-      "baseUrl": "http://127.0.0.1:9931/v1",
-      "api": "openai-completions",
-      "apiKey": "strata-local-key",
-      "models": [
-        {
-          "id": "qwen3.8-flash-next-nvfp4-nvfp4",
-          "name": "Qwen3.8-flash-next",
-          "reasoning": true,
-          "thinkingLevelMap": {
-            "off": "none",
-            "minimal": null,
-            "low": "low",
-            "medium": "medium",
-            "high": null,
-            "xhigh": "xhigh",
-            "max": null
-          },
-          "input": ["text", "image"],
-          "contextWindow": 262144,
-          "maxTokens": 64000,
-          "cost": {
-            "input": 5,
-            "output": 25,
-            "cacheRead": 0.5,
-            "cacheWrite": 10
-          },
-          "compat": {
-            "supportsStore": false,
-            "supportsDeveloperRole": false,
-            "supportsReasoningEffort": true,
-            "supportsUsageInStreaming": true,
-            "supportsStrictMode": false,
-            "maxTokensField": "max_tokens"
-          }
-        }
-      ]
-    },
     "basalt": {
       "baseUrl": "http://127.0.0.1:9931/v1",
       "api": "openai-completions",
@@ -126,7 +50,7 @@
             "max": null
           },
           "input": ["text", "image"],
-          "contextWindow": 262144,
+          "contextWindow": 250000,
           "maxTokens": 32000,
           "cost": {
             "input": 5,
@@ -165,101 +89,6 @@
             "cacheRead": 0.5,
             "cacheWrite": 10
           },
-          "compat": {
-            "supportsStore": false,
-            "supportsDeveloperRole": false,
-            "supportsReasoningEffort": true,
-            "supportsUsageInStreaming": true,
-            "supportsStrictMode": false,
-            "maxTokensField": "max_tokens"
-          }
-        }
-      ]
-    },
-    "llamacpp": {
-      "baseUrl": "http://127.0.0.1:9931/v1",
-      "api": "openai-completions",
-      "apiKey": "llama.cpp",
-      "models": [
-        {
-          "id": "unsloth/Qwen3.8-27B-GGUF:Q4_K_XL",
-          "name": "Qwen3.8:27B-Q4",
-          "reasoning": true,
-          "thinkingLevelMap": {
-            "off": "none",
-            "minimal": null,
-            "low": "low",
-            "medium": "medium",
-            "high": null,
-            "xhigh": "xhigh",
-            "max": null
-          },
-          "input": ["text"],
-          "contextWindow": 262144,
-          "maxTokens": 32000,
-          "cost": {
-            "input": 5,
-            "output": 25,
-            "cacheRead": 0.5,
-            "cacheWrite": 10
-          },
-          "compat": {
-            "supportsStore": false,
-            "supportsDeveloperRole": false,
-            "supportsReasoningEffort": true,
-            "supportsUsageInStreaming": true,
-            "supportsStrictMode": false,
-            "maxTokensField": "max_tokens"
-          }
-        },
-        {
-          "id": "unsloth/Qwen3.8-27B-GGUF:Q6_K",
-          "name": "Qwen3.8:27B-Q6",
-          "reasoning": true,
-          "thinkingLevelMap": {
-            "off": "none",
-            "minimal": null,
-            "low": "low",
-            "medium": "medium",
-            "high": null,
-            "xhigh": "xhigh",
-            "max": null
-          },
-          "input": ["text"],
-          "contextWindow": 172032,
-          "maxTokens": 32000,
-          "cost": {
-            "input": 5,
-            "output": 25,
-            "cacheRead": 0.5,
-            "cacheWrite": 10
-          },
-          "compat": {
-            "supportsStore": false,
-            "supportsDeveloperRole": false,
-            "supportsReasoningEffort": true,
-            "supportsUsageInStreaming": true,
-            "supportsStrictMode": false,
-            "maxTokensField": "max_tokens"
-          }
-        },
-        {
-          "id": "unsloth/Muse-Glimmer-30B-GGUF:Q6_K_XL",
-          "name": "MuseGlimmer:30B-Q6",
-          "reasoning": true,
-          "thinkingLevelMap": {
-            "off": "none",
-            "minimal": null,
-            "low": "low",
-            "medium": "medium",
-            "high": "high",
-            "xhigh": "xhigh",
-            "max": null
-          },
-          "input": ["text"],
-          "contextWindow": 131072,
-          "maxTokens": 32000,
-          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
           "compat": {
             "supportsStore": false,
             "supportsDeveloperRole": false,

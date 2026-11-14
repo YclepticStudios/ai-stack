@@ -2,7 +2,7 @@
 
 This is a simple, local AI coding assistant setup. It is built for Ubuntu 24.04
 running with a single NVIDIA 5090, although with some modifications it can be
-made to run on other systems. Containerized inference engines and MCP servers
+made to run on other systems. A containerized inference engine and an MCP server
 are provided in the services folder, while the harnesses folder provides
 configurations for running preconfigured, sandboxed coding harnesses.
 
@@ -12,26 +12,13 @@ configurations.
 
 ## Services
 
-- **llama-server**: [llama.cpp](https://github.com/ggml-org/llama.cpp) is one
-  inference engine option, serving a web chat interface (plus OpenAI-compatible
-  endpoints) at [http://localhost:9931](http://localhost:9931).
-- **ninfer**: [NInfer](https://github.com/Neroued/ninfer) is an alternative
-  inference engine, serving OpenAI- and Anthropic-compatible endpoints at the
-  same address (API only, no web chat). It has fewer options and less
-  compatibility but is notably faster.
-- **strata**: [Strata](https://github.com/Niko1221/Strata) runs
-  Qwen3.8-Flash-Next, a 125B MoE model with NVFP4 experts that mostly live in
-  system RAM rather than VRAM, serving the same OpenAI- and Anthropic-compatible
-  endpoints.
-- **basalt**: [Basalt](https://github.com/jesdga95/basalt) is another engine,
-  serving the same OpenAI- and Anthropic-compatible endpoints. It loads three
-  models: Qwen3.8-Flash-Next, Qwen3.8-27B and DeepSeek-V4.1-Flash.
+- **basalt**: [Basalt](https://github.com/jesdga95/basalt) is the inference
+  engine, serving OpenAI- and Anthropic-compatible endpoints at
+  [http://localhost:9931](http://localhost:9931). It serves three models:
+  Qwen3.8-Flash-Next, Qwen3.8-27B and DeepSeek-V4.1-Flash.
 - **mcp-search**: A simple self-hosted, streamable-HTTP MCP server (at
   `http://localhost:9932`) provides `search_web` (DuckDuckGo) and `fetch_page`
   (Chrome impersonation + trafilatura text extraction).
-
-Note: The four inference engines are alternatives: all bind port 9931 and want
-the whole GPU. Start only one at a time.
 
 ### Dependencies
 
@@ -44,17 +31,15 @@ the whole GPU. Start only one at a time.
 Run one of the following commands to control the server:
 
 ```sh
-services/llamacpp.sh   # Build and start (llama.cpp)
-services/ninfer.sh     # Build and start (NInfer)
-services/strata.sh     # Build and start (Strata)
-services/basalt.sh     # Build and start (Basalt)
+services/basalt.sh     # Build and start
 services/down.sh       # Stop everything
 ```
 
-All servers provide OpenAI compatible endpoints at `http://127.0.0.1:9931/v1`.
+The inference engine provides OpenAI-compatible endpoints at
+`http://127.0.0.1:9931/v1`.
 
 Note: First use may take a while to start since the models must be downloaded
-and some engines compiled.
+and the images built.
 
 ## Harnesses
 
@@ -98,9 +83,9 @@ on a trusted network (none of it is authenticated), expose the services on the
 stack machine and point each client machine's harness configs at it:
 
 - **Services**: In `services/docker-compose.yml`, change `127.0.0.1:9931:9931`
-  to `0.0.0.0:9931:9931` for the inference engine (`llama-server`, `ninfer`,
-  `strata` or `basalt`) and `127.0.0.1:9932:9932` to `0.0.0.0:9932:9932` for
-  `mcp-search`, then restart the services.
+  to `0.0.0.0:9931:9931` for the inference engine (`basalt`) and
+  `127.0.0.1:9932:9932` to `0.0.0.0:9932:9932` for `mcp-search`, then restart
+  the services.
 - **Harnesses**: On each client machine, set the `baseURL` fields in
   `harnesses/config/opencode/opencode.jsonc` and the `baseUrl` fields in
   `harnesses/config/pi/models.json` to `http://<stack machine IP>:9931/v1`, and

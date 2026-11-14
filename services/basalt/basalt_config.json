@@ -13,7 +13,7 @@
       "model": "/models/Qwen3.8-27B-NVFP4.basalt",
       "alias": "qwen3.8-27b",
       "gpu": "auto",
-      "max-context": 262144,
+      "max-context": 250000,
       "kv": "int8",
       "vision": "dynamic"
     },
@@ -32,6 +32,7 @@
   },
   "server": {
     "host": "0.0.0.0",
-    "port": 9931
+    "port": 9931,
+    "lazy": true
   }
 }
