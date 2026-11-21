@@ -2,7 +2,7 @@ services:
   # Basalt inference engine
   basalt:
     build:
-      context: https://github.com/jesdga95/basalt.git#v0.4.0
+      context: https://github.com/jesdga95/basalt.git#8ba264c0b7a3b944edf613c78672e19deaa28606
     container_name: basalt
     restart: unless-stopped
     ports:

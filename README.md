@@ -14,8 +14,8 @@ configurations.
 
 - **basalt**: [Basalt](https://github.com/jesdga95/basalt) is the inference
   engine, serving OpenAI- and Anthropic-compatible endpoints at
-  [http://localhost:9931](http://localhost:9931). It serves three models:
-  Qwen3.8-Flash-Next, Qwen3.8-27B and DeepSeek-V4.1-Flash.
+  [http://localhost:9931](http://localhost:9931). It serves four models:
+  Qwen3.8-Flash-Next, Qwen3.8-27B, DeepSeek-V4.1-Flash, and Hy4-flash.
 - **mcp-search**: A simple self-hosted, streamable-HTTP MCP server (at
   `http://localhost:9932`) provides `search_web` (DuckDuckGo) and `fetch_page`
   (Chrome impersonation + trafilatura text extraction).

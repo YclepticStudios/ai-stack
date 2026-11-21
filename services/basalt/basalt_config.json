@@ -24,6 +24,14 @@
       "max-context": 524288,
       "kv": "fp8",
       "vision": "dynamic"
+    },
+    {
+      "model": "/models/Hy4-flash-NVFP4.basalt",
+      "alias": "hy4-flash",
+      "gpu": "auto",
+      "max-context": 524288,
+      "kv": "fp16",
+      "vision": "dynamic"
     }
   ],
   "engine": {
